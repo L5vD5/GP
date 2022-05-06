@@ -15,7 +15,6 @@ print('maximum test X {}'.format(np.max(test_X)))
 fig = plt.figure()
 
 ax = fig.add_subplot(projection='3d')
-ax = fig.add_subplot(projection='3d')
 ax.set_title('GT')
 
 gpr = GPR()
@@ -34,17 +33,21 @@ def update2(frame, data2, line2):
 
   return line2
 
+ax.set_xlim([-0.05, 0.05])
+ax.set_ylim([-0.05, 0.05])
+ax.set_zlim([-0.02, 0.05])
+
 pred_y = pred_y.reshape(-1, 9, 3)
-print(np.max((test_y - pred_y), axis=0))
-print(np.argmax((test_y - pred_y), axis=0))
+print(np.max(np.abs((test_y - pred_y))))
+print(np.argmax(np.abs(test_y - pred_y), axis=0))
 
-pred_y += [0.1, 0, 0]
+# pred_y += [0.1, 0, 0]
 
-# line = ax.plot(test_y[0, :, 0], test_y[0, :, 1], test_y[0, :, 2], '.-')
-# line2 = ax.plot(pred_y[0, :, 0], pred_y[0, :, 1], pred_y[0, :, 2], '.-', c='r')
-line = ax.plot(test_y[2676, :, 0], test_y[2676, :, 1], test_y[2676, :, 2], '.-')
-line2 = ax.plot(pred_y[2676, :, 0], pred_y[2676, :, 1], pred_y[2676, :, 2], '.-', c='r')
+line = ax.plot(test_y[0, :, 0], test_y[0, :, 1], test_y[0, :, 2], '.-')
+line2 = ax.plot(pred_y[0, :, 0], pred_y[0, :, 1], pred_y[0, :, 2], '.-', c='r')
+# line = ax.plot(test_y[2342, :, 0], test_y[2342, :, 1], test_y[2342, :, 2], '.-')
+# line2 = ax.plot(pred_y[2342, :, 0], pred_y[2342, :, 1], pred_y[2342, :, 2], '.-', c='r')
 
-# ani = FuncAnimation(fig, update, fargs=[test_y, line], frames=range(len(test_y)), interval=500)
-# ani2 = FuncAnimation(fig, update2, fargs=[pred_y, line2], frames=range(len(test_y)), interval=500)
+ani = FuncAnimation(fig, update, fargs=[test_y, line], frames=range(len(test_y)), interval=500)
+ani2 = FuncAnimation(fig, update2, fargs=[pred_y, line2], frames=range(len(test_y)), interval=500)
 plt.show()
