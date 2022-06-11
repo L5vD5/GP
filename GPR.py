@@ -70,12 +70,15 @@ class GPR(object):
 
 if __name__ == '__main__':
     train_X, train_y = load('../data/trainInterpolate.json')
-    test_X, test_y = load('../data/valExtrapolate.json')
+    test_X, test_y = load('../data/testExtrapolate.json')
     gpr = GPR()
     train_X = train_X[:100, :]
     train_y = train_y[:100, :]
     train_y = train_y.reshape(-1, 27)
     gpr.fit(train_X, train_y)
     pred_y = gpr.predict(test_X)
-    test_y = test_y.reshape(-1,27)
-    print(np.max((test_y - pred_y) / test_y))
+    # test_y = test_y.reshape(-1,27)
+    
+    pred_y = pred_y.reshape(-1,9,3)
+    loss = (((pred_y.flatten()-test_y.flatten()))**2).mean()
+    # print((test_y - pred_y).reshape(-1,9,3))
